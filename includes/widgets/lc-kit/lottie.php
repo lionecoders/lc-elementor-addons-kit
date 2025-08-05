@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class LC_Kit_Lottie extends LC_Kit_Base_Widget {
+class LC_Kit_Lottie extends \Elementor\Widget_Base {
 
     public function get_name() {
         return 'lc-kit-lottie';
@@ -21,6 +21,10 @@ class LC_Kit_Lottie extends LC_Kit_Base_Widget {
 
     public function get_icon() {
         return 'eicon-animation';
+    }
+
+    public function get_categories() {
+        return ['lc-page-kit'];
     }
 
     public function get_keywords() {

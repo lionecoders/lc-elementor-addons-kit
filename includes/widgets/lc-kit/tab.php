@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class LC_Kit_Tab extends LC_Kit_Base_Widget {
+class LC_Kit_Tab extends \Elementor\Widget_Base {
 
     public function get_name() {
         return 'lc-kit-tab';
@@ -21,6 +21,10 @@ class LC_Kit_Tab extends LC_Kit_Base_Widget {
 
     public function get_icon() {
         return 'eicon-tabs';
+    }
+
+    public function get_categories() {
+        return ['lc-page-kit'];
     }
 
     public function get_keywords() {

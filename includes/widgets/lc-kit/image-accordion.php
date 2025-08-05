@@ -9,18 +9,22 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class LC_Kit_Image_Accordion extends LC_Kit_Base_Widget {
+class LC_Kit_Image_Accordion extends \Elementor\Widget_Base {
 
     public function get_name() {
         return 'lc-kit-image-accordion';
     }
 
     public function get_title() {
-        return esc_html__('Image Accordion', 'lc-elementor-addons-kit');
+        return esc_html__('Image Accordion Widget', 'lc-elementor-addons-kit');
     }
 
     public function get_icon() {
         return 'eicon-gallery-grid';
+    }
+
+    public function get_categories() {
+        return ['lc-page-kit'];
     }
 
     public function get_keywords() {

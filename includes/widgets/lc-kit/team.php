@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class LC_Kit_Team extends LC_Kit_Base_Widget {
+class LC_Kit_Team extends \Elementor\Widget_Base {
 
     public function get_name() {
         return 'lc-kit-team';
@@ -21,6 +21,10 @@ class LC_Kit_Team extends LC_Kit_Base_Widget {
 
     public function get_icon() {
         return 'eicon-person';
+    }
+
+    public function get_categories() {
+        return ['lc-page-kit'];
     }
 
     public function get_keywords() {

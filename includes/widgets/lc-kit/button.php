@@ -10,19 +10,23 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Include base widget class
-require_once LC_ELEMENTOR_ADDONS_KIT_PATH . 'includes/class-base-widget.php';
-
 /**
  * Button Widget Class
  */
-class LC_Kit_Button extends LC_Kit_Base_Widget {
+class LC_Kit_Button extends \Elementor\Widget_Base {
 
     /**
      * Get widget name
      */
     public function get_name() {
         return 'lc-kit-button';
+    }
+
+    /**
+     * Get widget categories
+     */
+    public function get_categories() {
+        return ['lc-page-kit'];
     }
 
     /**

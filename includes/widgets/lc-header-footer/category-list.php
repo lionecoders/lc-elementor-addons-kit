@@ -10,13 +10,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Include base header footer widget class
-require_once LC_ELEMENTOR_ADDONS_KIT_PATH . 'includes/class-base-header-footer-widget.php';
-
 /**
  * Category List Widget Class
  */
-class LC_Header_Footer_Category_List extends LC_Header_Footer_Base_Widget {
+class LC_Header_Footer_Category_List extends \Elementor\Widget_Base {
 
     /**
      * Get widget name
@@ -37,6 +34,10 @@ class LC_Header_Footer_Category_List extends LC_Header_Footer_Base_Widget {
      */
     public function get_icon() {
         return 'eicon-post-list';
+    }
+
+    public function get_categories() {
+        return ['lc-header-footer'];
     }
 
     /**
