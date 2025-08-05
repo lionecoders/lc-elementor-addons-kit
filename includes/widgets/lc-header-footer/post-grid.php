@@ -40,7 +40,7 @@ class LC_Header_Footer_Post_Grid extends \Elementor\Widget_Base {
      * Get widget categories
      */
     public function get_categories() {
-        return ['lc-header-footer'];
+        return ['lc-header-footer-kit'];
     }
 
     /**

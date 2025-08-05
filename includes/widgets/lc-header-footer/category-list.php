@@ -37,7 +37,7 @@ class LC_Header_Footer_Category_List extends \Elementor\Widget_Base {
     }
 
     public function get_categories() {
-        return ['lc-header-footer'];
+        return ['lc-header-footer-kit'];
     }
 
     /**
