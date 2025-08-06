@@ -820,11 +820,45 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             echo '<div class="lc-accordion-body">';
             echo wp_kses_post($item['content']);
             echo '</div>';
-            echo '</div>';
+            echo '</div>'; // .lc-accordion-content
 
-            echo '</div>';
+            echo '</div>'; // .lc-accordion-item
         }
 
-        echo '</div>';
+        echo '</div>'; // .lc-accordion
+    }
+
+    protected function content_template() {
+        ?>
+        <# if (settings.accordion_items && settings.accordion_items.length) { #>
+            <div class="lc-accordion" data-multiple="{{ settings.multiple }}">
+                <# _.each(settings.accordion_items, function(item, index) { #>
+                    <div class="lc-accordion-item<# if (index + 1 == settings.active_item) { #> active<# } #>">
+                    <div class="lc-accordion-header <# if (settings.icon_position === 'left') { #>icon-left<# } #>">
+
+                            <div class="lc-accordion-title">{{{ item.title }}}</div>
+                            <# if (item.icon && item.icon.value || item.active_icon && item.active_icon.value) { #>
+                                <div class="lc-accordion-icon">
+                                    <# if (item.icon && item.icon.value) { #>
+                                        <i class="{{ item.icon.value }}" aria-hidden="true"></i>
+                                    <# } #>
+                                    <# if (item.active_icon && item.active_icon.value) { #>
+                                        <span class="lc-accordion-icon-active">
+                                            <i class="{{ item.active_icon.value }}" aria-hidden="true"></i>
+                                        </span>
+                                    <# } #>
+                                </div>
+                            <# } #>
+                        </div>
+                        <div class="lc-accordion-content">
+                            <div class="lc-accordion-body">
+                                {{{ item.content }}}
+                            </div>
+                        </div>
+                    </div>
+                <# }); #>
+            </div>
+        <# } #>
+        <?php
     }
 }
