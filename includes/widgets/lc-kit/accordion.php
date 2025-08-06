@@ -176,9 +176,607 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
     }
 
     protected function add_style_controls() {
-        // Skip here for brevity (you already have all style controls correct)
-        // Just paste your `add_style_controls()` method from your earlier code
+        $this->start_controls_section(
+            'style_section',
+            [
+                'label' => esc_html__('Title', 'lc-elementor-addons-kit'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        // Typography for Title
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'accordion_title_typography',
+                'selector' => '{{WRAPPER}} .lc-accordion-title',
+            ]
+        );
+
+        // Tabs for Open and Closed
+        $this->start_controls_tabs('accordion_style_tabs');
+
+        // -------- OPEN TAB --------
+        $this->start_controls_tab(
+            'accordion_open_tab_title',
+            [
+                'label' => esc_html__('Open', 'lc-elementor-addons-kit'),
+            ]
+        );
+
+        $this->add_control(
+            'accordion_open_color_title',
+            [
+                'label' => esc_html__('Text Color', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'accordion_open_hover_color_title',
+            [
+                'label' => esc_html__('Hover Color', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-header:hover .lc-accordion-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'accordion_open_background_title',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-header',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'accordion_open_border_title',
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-header',
+            ]
+        );
+
+        $this->add_control(
+            'accordion_open_border_radius_title',
+            [
+                'label' => esc_html__('Border Radius', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-header' =>
+                        'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'accordion_open_shadow_title',
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-header',
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        // -------- CLOSED TAB --------
+        $this->start_controls_tab(
+            'accordion_closed_tab_title',
+            [
+                'label' => esc_html__('Closed', 'lc-elementor-addons-kit'),
+            ]
+        );
+
+        $this->add_control(
+            'accordion_closed_color_title',
+            [
+                'label' => esc_html__('Text Color', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item:not(.active) .lc-accordion-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'accordion_closed_hover_color_title',
+            [
+                'label' => esc_html__('Hover Color', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item:not(.active) .lc-accordion-header:hover .lc-accordion-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'accordion_closed_background_title',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .lc-accordion-item:not(.active) .lc-accordion-header',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'accordion_closed_border_title',
+                'selector' => '{{WRAPPER}} .lc-accordion-item:not(.active) .lc-accordion-header',
+            ]
+        );
+
+        $this->add_control(
+            'accordion_closed_border_radius_title',
+            [
+                'label' => esc_html__('Border Radius', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item:not(.active) .lc-accordion-header' =>
+                        'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'accordion_closed_shadow_title',
+                'selector' => '{{WRAPPER}} .lc-accordion-item:not(.active) .lc-accordion-header',
+            ]
+        );
+
+        $this->end_controls_tab();
+        $this->end_controls_tabs();
+
+        // Divider
+        $this->add_control(
+            'accordion_title_divider',
+            [
+                'type' => \Elementor\Controls_Manager::DIVIDER,
+                'style' => 'thick',
+            ]
+        );
+
+        // Padding
+        $this->add_responsive_control(
+            'accordion_title_padding_title',
+            [
+                'label' => esc_html__('Padding', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-header' =>
+                        'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Margin Bottom
+        $this->add_responsive_control(
+            'accordion_title_margin_bottom_title',
+            [
+                'label' => esc_html__('Margin Bottom', 'lc-elementor-addons-kit'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion-item:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Description (Subtitle) Style Section
+        $this->start_controls_section(
+            'lc_accordion_description_style',
+            [
+                'label' => esc_html__('Description', 'lc-kit'),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        // Text Color
+        $this->add_control(
+            'lc_accordion_description_color',
+            [
+                'label' => esc_html__('Text Color', 'lc-kit'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Typography
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'lc_accordion_description_typography',
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+            ]
+        );
+
+        // Background
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'lc_accordion_description_background',
+                'label' => esc_html__('Background', 'lc-kit'),
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+            ]
+        );
+
+        // Border
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'lc_accordion_description_border',
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+            ]
+        );
+
+        // Border Radius
+        $this->add_control(
+            'lc_accordion_description_border_radius',
+            [
+                'label' => esc_html__('Border Radius', 'lc-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Box Shadow
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'lc_accordion_description_box_shadow',
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+            ]
+        );
+
+        // Padding
+        $this->add_responsive_control(
+            'lc_accordion_description_padding',
+            [
+                'label' => esc_html__('Padding', 'lc-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Max Width (Only for specific style, if needed)
+        $this->add_responsive_control(
+            'lc_accordion_description_max_width',
+            [
+                'label' => esc_html__('Max Width', 'lc-kit'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['%'],
+                'range' => [
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => '%',
+                    'size' => 100,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'max-width: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'lc_accordion_style' => 'floating-style', // adjust if using this style condition
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Accordion Border Style Section
+        $this->start_controls_section(
+            'lc_accordion_section_border_style', [
+                'label' => esc_html__('Border', 'lc-elementor-kit'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs('lc_accordion_border_style_tabs');
+
+        // OPEN TAB
+        $this->start_controls_tab(
+            'lc_accordion_border_style_open',
+            [
+                'label' => esc_html__('OPEN', 'lc-elementor-kit'),
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'lc_accordion_border_open',
+                'label' => esc_html__('Border', 'lc-elementor-kit'),
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item.active',
+            ]
+        );
+
+        $this->add_control(
+            'lc_accordion_border_radius_open',
+            [
+                'label' => esc_html__('Border Radius', 'lc-elementor-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-title' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} 0{{UNIT}} 0{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'lc_accordion_box_shadow_open',
+                'label' => esc_html__('Box Shadow', 'lc-elementor-kit'),
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item.active',
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        // CLOSED TAB
+        $this->start_controls_tab(
+            'lc_accordion_border_style_closed',
+            [
+                'label' => esc_html__('CLOSED', 'lc-elementor-kit'),
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'lc_accordion_border_closed',
+                'label' => esc_html__('Border', 'lc-elementor-kit'),
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item',
+            ]
+        );
+
+        $this->add_control(
+            'lc_accordion_border_radius_closed',
+            [
+                'label' => esc_html__('Border Radius', 'lc-elementor-kit'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-title.collapsed' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'lc_accordion_box_shadow_closed',
+                'label' => esc_html__('Box Shadow', 'lc-elementor-kit'),
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item',
+            ]
+        );
+
+        $this->end_controls_tab();
+        $this->end_controls_tabs();
+
+        $this->add_control(
+            'lc_accordion_last_border_none',
+            [
+                'label' => esc_html__('Disable Border for Last Element?', 'lc-elementor-kit'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Yes', 'lc-elementor-kit'),
+                'label_off' => esc_html__('No', 'lc-elementor-kit'),
+                'return_value' => 'yes',
+                'default' => '',
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item:last-child' => 'border: none;',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+        
+        // Icon Style Section
+        $this->start_controls_section(
+            'lc_accordion_section_icon_style', [
+                'label' => esc_html__('Icon', 'lc-accordion'),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs('lc_accordion_icon_tabs');
+
+        // === CLOSED TAB ===
+        $this->start_controls_tab(
+            'lc_accordion_icon_closed_tab',
+            ['label' => esc_html__('CLOSED', 'lc-accordion')]
+        );
+
+        $this->add_responsive_control(
+            'lc_accordion_icon_closed_size',
+            [
+                'label' => esc_html__('Size', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => ['px' => ['min' => 6, 'max' => 300]],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lc_accordion_icon_closed_color',
+            [
+                'label' => esc_html__('Color', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-icon i' => 'color: {{VALUE}}; fill: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lc_accordion_icon_closed_hover_color',
+            [
+                'label' => esc_html__('Hover Color', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-header:hover .lc-accordion-icon i' => 'color: {{VALUE}}; fill: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'lc_accordion_icon_closed_bg',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-icon',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'lc_accordion_icon_closed_border',
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-icon',
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        // === OPEN TAB ===
+        $this->start_controls_tab(
+            'lc_accordion_icon_open_tab',
+            ['label' => esc_html__('OPEN', 'lc-accordion')]
+        );
+
+        $this->add_responsive_control(
+            'lc_accordion_icon_open_size',
+            [
+                'label' => esc_html__('Size', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => ['px' => ['min' => 6, 'max' => 300]],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-icon-active i' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lc_accordion_icon_open_color',
+            [
+                'label' => esc_html__('Color', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-icon-active i' => 'color: {{VALUE}}; fill: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lc_accordion_icon_open_hover_color',
+            [
+                'label' => esc_html__('Hover Color', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-header:hover .lc-accordion-icon-active i' => 'color: {{VALUE}}; fill: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'lc_accordion_icon_open_bg',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-icon-active',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'lc_accordion_icon_open_border',
+                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-icon-active',
+            ]
+        );
+
+        $this->end_controls_tab();
+        $this->end_controls_tabs();
+
+        // === COMMON CONTROLS ===
+        $this->add_control(
+            'lc_accordion_icon_radius',
+            [
+                'label' => esc_html__('Border Radius', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-icon, {{WRAPPER}} .lc-accordion .lc-accordion-icon-active' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'lc_accordion_icon_padding',
+            [
+                'label' => esc_html__('Padding', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-icon, {{WRAPPER}} .lc-accordion .lc-accordion-icon-active' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'lc_accordion_icon_margin',
+            [
+                'label' => esc_html__('Margin', 'lc-accordion'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-icon, {{WRAPPER}} .lc-accordion .lc-accordion-icon-active' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
+
+
 
     public function render() {
         $settings = $this->get_settings_for_display();

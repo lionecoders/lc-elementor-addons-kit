@@ -54,7 +54,7 @@
 
 .lc-accordion-item.active .lc-accordion-content {
     /* max-height is set dynamically via JS */
-    padding: 15px;
+    padding: 15px 25px 48px 33px ;
 }
 
 .lc-accordion-icon {

@@ -2,11 +2,20 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".lc-accordion").forEach(function (accordion) {
         const multiple = accordion.dataset.multiple === "yes";
 
+        // Step 1: Determine the max scrollHeight among all .lc-accordion-content
+        let maxHeight = 0;
+        accordion.querySelectorAll(".lc-accordion-content").forEach(function (content) {
+            content.style.maxHeight = "none"; // Temporarily remove restrictions
+            const height = content.scrollHeight;
+            if (height > maxHeight) maxHeight = height;
+            content.style.maxHeight = null; // Reset
+        });
+
+        // Step 2: Event listener for clicks on headers
         accordion.querySelectorAll(".lc-accordion-header").forEach(function (header) {
             header.addEventListener("click", function () {
                 const item = header.closest(".lc-accordion-item");
                 const content = item.querySelector(".lc-accordion-content");
-
                 const isOpen = item.classList.contains("active");
 
                 if (!multiple) {
@@ -20,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!isOpen) {
                     item.classList.add("active");
-                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.maxHeight = maxHeight + "px"; // Use shared height
                     content.style.paddingTop = "15px";
                     content.style.paddingBottom = "15px";
                 } else {
@@ -32,9 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        // Set max-height on initially active item
+        // Step 3: Apply maxHeight to any active items on load
         accordion.querySelectorAll(".lc-accordion-item.active .lc-accordion-content").forEach(function (content) {
-            content.style.maxHeight = content.scrollHeight + "px";
+            content.style.maxHeight = maxHeight + "px";
+            content.style.paddingTop = "15px";
+            content.style.paddingBottom = "15px";
         });
     });
 });
+
