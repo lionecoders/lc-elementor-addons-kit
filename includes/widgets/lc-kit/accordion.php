@@ -628,7 +628,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'range' => ['px' => ['min' => 6, 'max' => 300]],
                 'selectors' => [
-                    '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item:not(.active) .lc-accordion-icon svg' => 'font-size: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -687,7 +687,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'range' => ['px' => ['min' => 6, 'max' => 300]],
                 'selectors' => [
-                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-icon-active i' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion .lc-accordion-item.active .lc-accordion-icon-active svg' => 'font-size: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
