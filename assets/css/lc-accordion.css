@@ -1,0 +1,83 @@
+.lc-accordion {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.lc-accordion-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.lc-accordion-header {
+    cursor: pointer;
+    padding: 15px;
+    background: #f9f9f9;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s;
+    gap: 10px; /* Added for spacing between icon and title */
+}
+
+.lc-accordion-header.icon-left {
+    flex-direction: row-reverse;
+}
+
+.lc-accordion-header.icon-left .lc-accordion-icon {
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+.lc-accordion-header.icon-right {
+    flex-direction: row;
+}
+
+.lc-accordion-header.icon-right .lc-accordion-icon {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.lc-accordion-title {
+    flex: 1;
+}
+
+.lc-accordion-item.active .lc-accordion-header {
+    background: #e9e9e9;
+}
+
+.lc-accordion-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 15px;
+    background: #fff;
+}
+
+.lc-accordion-item.active .lc-accordion-content {
+    /* max-height is set dynamically via JS */
+    padding: 15px;
+}
+
+.lc-accordion-icon {
+    display: flex;
+    align-items: center;
+}
+
+.lc-accordion-icon-active {
+    display: none;
+}
+
+.lc-accordion-item.active .lc-accordion-icon-active {
+    display: inline-block;
+}
+
+.lc-accordion-item.active .lc-accordion-icon > :not(.lc-accordion-icon-active) {
+    display: none;
+}
+
+.e-font-icon-svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    display: inline-block;
+}

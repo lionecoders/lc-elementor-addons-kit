@@ -19,6 +19,14 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
         return esc_html__('Accordion', 'lc-elementor-addons-kit');
     }
 
+    public function get_script_depends() {
+        return ['lc-kit-accordion'];
+    }
+    
+    public function get_style_depends() {
+        return ['lc-kit-accordion'];
+    }
+
     public function get_icon() {
         return 'eicon-accordion';
     }
@@ -100,12 +108,20 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'fields' => $repeater->get_controls(),
                 'default' => [
                     [
-                        'title' => esc_html__('Accordion #1', 'lc-elementor-addons-kit'),
-                        'content' => esc_html__('Content for Accordion #1', 'lc-elementor-addons-kit'),
+                        'title' => esc_html__('How do I start using WordPress?', 'lc-elementor-addons-kit'),
+                        'content' => esc_html__('You can start by choosing a domain, getting web hosting, and installing WordPress with one click from most hosting dashboards', 'lc-elementor-addons-kit'),
                     ],
                     [
-                        'title' => esc_html__('Accordion #2', 'lc-elementor-addons-kit'),
-                        'content' => esc_html__('Content for Accordion #2', 'lc-elementor-addons-kit'),
+                        'title' => esc_html__('Can I build a website without coding in WordPress?', 'lc-elementor-addons-kit'),
+                        'content' => esc_html__('Yes! WordPress has drag-and-drop builders like Elementor that let you build websites visually, without writing code.', 'lc-elementor-addons-kit'),
+                    ],
+                    [
+                        'title' => esc_html__('What are WordPress themes and plugins?', 'lc-elementor-addons-kit'),
+                        'content' => esc_html__('Themes control your website’s design, and plugins add new features like contact forms, galleries, SEO tools, and more.', 'lc-elementor-addons-kit'),
+                    ],
+                    [
+                        'title' => esc_html__('How can I learn WordPress faster?', 'lc-elementor-addons-kit'),
+                        'content' => esc_html__('Start by exploring the WordPress dashboard, watching tutorials on YouTube, or trying small changes like editing pages and posts.', 'lc-elementor-addons-kit'),
                     ],
                 ],
                 'title_field' => '{{{ title }}}',
@@ -183,8 +199,8 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             }
 
             echo '<div class="' . esc_attr($item_class) . '">';
-
-            echo '<div class="lc-accordion-header">';
+            $icon_position_class = $settings['icon_position'] === 'left' ? 'icon-left' : '';
+            echo '<div class="lc-accordion-header ' . esc_attr($icon_position_class) . '">';
             echo '<div class="lc-accordion-title">' . esc_html($item['title']) . '</div>';
 
             if (!empty($item['icon']['value']) || !empty($item['active_icon']['value'])) {
@@ -220,7 +236,8 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             <div class="lc-accordion" data-multiple="{{ settings.multiple }}">
                 <# _.each(settings.accordion_items, function(item, index) { #>
                     <div class="lc-accordion-item<# if (index + 1 == settings.active_item) { #> active<# } #>">
-                        <div class="lc-accordion-header">
+                    <div class="lc-accordion-header <# if (settings.icon_position === 'left') { #>icon-left<# } #>">
+
                             <div class="lc-accordion-title">{{{ item.title }}}</div>
                             <# if (item.icon && item.icon.value || item.active_icon && item.active_icon.value) { #>
                                 <div class="lc-accordion-icon">

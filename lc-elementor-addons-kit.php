@@ -25,6 +25,7 @@ class LC_Elementor_Addons_Kit
     {
         $this->define_constants();
         add_action('plugins_loaded', [$this, 'on_plugins_loaded']);
+        
     }
 
     private function define_constants()
@@ -45,14 +46,36 @@ class LC_Elementor_Addons_Kit
         require_once LC_EAK_PATH . 'admin/lc-admin-page.php';
         new LC_Kit_Widget_Loader();
         new LC_Kit_Admin_Settings();
+        add_action('elementor/frontend/after_register_scripts', [$this, 'register_widget_scripts']);
+        add_action('elementor/frontend/after_register_styles', [$this, 'register_widget_styles']);
+
     }
+    public function register_widget_scripts() {
+        wp_register_script(
+            'lc-kit-accordion',
+            LC_EAK_URL . 'assets/js/lc-accordion.js',
+            ['jquery'],
+            LC_EAK_VERSION,
+            true
+        );
+    }
+    
+    public function register_widget_styles() {
+        wp_register_style(
+            'lc-kit-accordion',
+            LC_EAK_URL . 'assets/css/lc-accordion.css',
+            [],
+            LC_EAK_VERSION
+        );
+    }
+    
 
     public function elementor_missing_notice()
     {
         echo '<div class="notice notice-warning"><p>';
         echo esc_html__('LC Elementor Addons Kit requires Elementor to be installed and activated.', 'lc-elementor-addons-kit');
         echo '</p></div>';
-    }
+    }    
 }
 
 new LC_Elementor_Addons_Kit();
