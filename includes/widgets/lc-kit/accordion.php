@@ -176,7 +176,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
     }
 
     protected function add_style_controls() {
-        $this->start_controls_section(
+              $this->start_controls_section(
             'style_section',
             [
                 'label' => esc_html__('Title', 'lc-elementor-addons-kit'),
@@ -397,7 +397,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'label' => esc_html__('Text Color', 'lc-kit'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -407,7 +407,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name' => 'lc_accordion_description_typography',
-                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content',
             ]
         );
 
@@ -418,7 +418,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'name' => 'lc_accordion_description_background',
                 'label' => esc_html__('Background', 'lc-kit'),
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content',
             ]
         );
 
@@ -427,7 +427,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Border::get_type(),
             [
                 'name' => 'lc_accordion_description_border',
-                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content',
             ]
         );
 
@@ -439,7 +439,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -449,7 +449,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Box_Shadow::get_type(),
             [
                 'name' => 'lc_accordion_description_box_shadow',
-                'selector' => '{{WRAPPER}} .lc-accordion .lc-accordion-content',
+                'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content',
             ]
         );
 
@@ -461,7 +461,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -484,10 +484,10 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
                     'size' => 100,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .lc-accordion .lc-accordion-content' => 'max-width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content' => 'max-width: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
-                    'lc_accordion_style' => 'floating-style', // adjust if using this style condition
+                    'lc_accordion_style' => 'floating-style',
                 ],
             ]
         );

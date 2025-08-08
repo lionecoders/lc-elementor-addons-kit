@@ -1,72 +1,48 @@
 (function () {
+    function toggleAccordionItem(item, expand) {
+        if (!item) return;
+        item.classList.toggle("active", expand);
+    }
+
+    function closeAllItems(container) {
+        container.querySelectorAll(".lc-accordion-item.active").forEach(item => {
+            toggleAccordionItem(item, false);
+        });
+    }
+
     function initAccordion(scope) {
         const accordions = scope.querySelectorAll(".lc-accordion");
 
-        accordions.forEach(function (accordion) {
-            const multiple = accordion.dataset.multiple === "yes";
-            let maxHeight = 0;
+        accordions.forEach(accordion => {
+            const allowMultiple = accordion.dataset.multiple === "yes" || accordion.dataset.multiple === "true";
 
-            // Calculate the maximum scrollHeight from all contents
-            accordion.querySelectorAll(".lc-accordion-content").forEach(function (content) {
-                content.style.maxHeight = "none"; // Temporarily allow expansion
-                const height = content.scrollHeight;
-                if (height > maxHeight) {
-                    maxHeight = height;
+            accordion.querySelectorAll(".lc-accordion-item").forEach(item => {
+                toggleAccordionItem(item, item.classList.contains("active"));
+            });
+
+            accordion.addEventListener("click", event => {
+                const header = event.target.closest(".lc-accordion-header");
+                if (!header || !accordion.contains(header)) return;
+
+                const item = header.closest(".lc-accordion-item");
+                const isActive = item.classList.contains("active");
+
+                if (!allowMultiple) {
+                    closeAllItems(accordion);
                 }
-                content.style.maxHeight = null;
-            });
 
-            // Accordion header click logic
-            accordion.querySelectorAll(".lc-accordion-header").forEach(function (header) {
-                header.addEventListener("click", function () {
-                    const item = header.closest(".lc-accordion-item");
-                    const content = item.querySelector(".lc-accordion-content");
-                    const isOpen = item.classList.contains("active");
-
-                    if (!multiple) {
-                        accordion.querySelectorAll(".lc-accordion-item").forEach(function (i) {
-                            i.classList.remove("active");
-                            const c = i.querySelector(".lc-accordion-content");
-                            if (c) {
-                                c.style.maxHeight = null;
-                                c.style.paddingTop = "0";
-                                c.style.paddingBottom = "0";
-                            }
-                        });
-                    }
-
-                    if (!isOpen) {
-                        item.classList.add("active");
-                        content.style.maxHeight = maxHeight + "px";
-                        content.style.paddingTop = "15px";
-                        content.style.paddingBottom = "15px";
-                    } else {
-                        item.classList.remove("active");
-                        content.style.maxHeight = null;
-                        content.style.paddingTop = "0";
-                        content.style.paddingBottom = "0";
-                    }
-                });
-            });
-
-            // Initially open active content
-            accordion.querySelectorAll(".lc-accordion-item.active .lc-accordion-content").forEach(function (content) {
-                content.style.maxHeight = maxHeight + "px";
-                content.style.paddingTop = "15px";
-                content.style.paddingBottom = "15px";
+                toggleAccordionItem(item, !isActive);
             });
         });
     }
 
-    // Run on frontend
-    document.addEventListener("DOMContentLoaded", function () {
-        initAccordion(document);
-    });
+    document.addEventListener("DOMContentLoaded", () => initAccordion(document));
 
-    // Run in Elementor editor
-    window.addEventListener("elementor/frontend/init", function () {
-        elementorFrontend.hooks.addAction("frontend/element_ready/lc-kit-accordion.default", function ($scope) {
-            initAccordion($scope[0]);
+    if (window.elementorFrontend) {
+        window.addEventListener("elementor/frontend/init", () => {
+            elementorFrontend.hooks.addAction("frontend/element_ready/lc-kit-accordion.default", ($scope) => {
+                initAccordion($scope[0]);
+            });
         });
-    });
+    }
 })();
