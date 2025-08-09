@@ -449,6 +449,8 @@ class LC_Kit_Button extends \Elementor\Widget_Base {
                 'size_units' => [ 'px', 'em', 'rem' ],
                 'range' => [
                     'px' => [ 'min' => 1, 'max' => 100 ],
+                    'em' => [ 'min' => 0.1, 'max' => 10 ],
+                    'rem' => [ 'min' => 0.1, 'max' => 10 ],
                 ],
                 'default' => [
                     'unit' => 'px',
@@ -456,6 +458,7 @@ class LC_Kit_Button extends \Elementor\Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .lc-kit-button .lc-kit-button-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .lc-kit-button .lc-kit-button-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -536,36 +539,37 @@ class LC_Kit_Button extends \Elementor\Widget_Base {
 
     }
 
- public function render() {
+    protected function render() {
         $settings = $this->get_settings_for_display();
 
-        // Sanitize class and id
-        $custom_class = isset($settings['lc_button_class']) ? sanitize_html_class($settings['lc_button_class']) : '';
-        $custom_id = isset($settings['lc_button_id']) ? sanitize_html_class($settings['lc_button_id']) : '';
+        $custom_class = !empty($settings['lc_button_class']) ? sanitize_html_class($settings['lc_button_class']) : '';
+        $custom_id    = !empty($settings['lc_button_id']) ? sanitize_html_class($settings['lc_button_id']) : '';
+        $button_text  = !empty($settings['lc_button_text']) ? esc_html($settings['lc_button_text']) : '';
+        $position     = $settings['lc_button_icon_position'] ?? 'left';
+        $has_url      = !empty($settings['lc_button_link']['url']);
 
-        // Prepare link/button attributes
-        $this->add_render_attribute(
-            'button',
-            [
-                'class' => array_filter([
-                    'lc-kit-button',
-                    'elementor-button',
-                    $custom_class,
-                ]),
-            ]
-        );
-        if (!empty($custom_id)) {
+        // Base button attributes
+        $this->add_render_attribute('button', [
+            'class' => array_filter([
+                'lc-kit-button',
+                'elementor-button',
+                $custom_class,
+            ]),
+        ]);
+
+        if ($custom_id) {
             $this->add_render_attribute('button', 'id', $custom_id);
         }
 
-        // Accessibility: aria-label if set
-        if (!empty($settings['lc_button_text'])) {
-            $this->add_render_attribute('button', 'aria-label', esc_attr($settings['lc_button_text']));
+        // Accessibility label
+        if ($button_text) {
+            $this->add_render_attribute('button', 'aria-label', $button_text);
         }
 
-        $has_url = !empty($settings['lc_button_link']['url']);
+        // Link attributes if URL exists
         if ($has_url) {
             $this->add_render_attribute('button', 'href', esc_url($settings['lc_button_link']['url']));
+
             if (!empty($settings['lc_button_link']['is_external'])) {
                 $this->add_render_attribute('button', 'target', '_blank');
             }
@@ -574,9 +578,11 @@ class LC_Kit_Button extends \Elementor\Widget_Base {
             }
         }
 
-        // Icon (only if enabled)
+ 
+        // Icon HTML
         $icon_html = '';
-        if ($settings['lc_button_icon_switch'] === 'yes' && !empty($settings['lc_button_icon']['value'])) {
+        if (!empty($settings['lc_button_icon_switch']) && $settings['lc_button_icon_switch'] === 'yes' && !empty($settings['lc_button_icon']['value'])) {
+            \Elementor\Icons_Manager::enqueue_shim();
             ob_start();
             \Elementor\Icons_Manager::render_icon(
                 $settings['lc_button_icon'],
@@ -587,52 +593,60 @@ class LC_Kit_Button extends \Elementor\Widget_Base {
                 'inline'
             );
             $icon_html = ob_get_clean();
+
+            // Normalize SVG sizing for consistent styling via CSS
+            if (stripos($icon_html, '<svg') !== false) {
+                $icon_html = preg_replace('/\s(?:width|height)=["\'][^"\']*["\']/', '', $icon_html);
+                if (preg_match('/<svg\b[^>]*\bstyle=["\']([^"\']*)["\']/i', $icon_html, $m)) {
+                    $new_style = preg_replace(['/width:\s*[^;]+;?/i', '/height:\s*[^;]+;?/i'], ['width:1em;', 'height:1em;'], $m[1]);
+                    $new_style .= (substr(trim($new_style), -1) !== ';' ? ';' : '') . 'vertical-align:middle;';
+                    $icon_html = preg_replace('/(<svg\b[^>]*\bstyle=["\'])([^"\']*)(["\'])/i', '$1' . $new_style . '$3', $icon_html, 1);
+                } else {
+                    $icon_html = preg_replace('/<svg\b([^>]*)>/i', '<svg$1 style="width:1em;height:1em;vertical-align:middle;">', $icon_html, 1);
+                }
+            }
         }
 
-        // Badge
-        $badge_html = '';
-        if (!empty($settings['lc_button_badge'])) {
-            $badge_html = sprintf(
-                '<span class="lc-button-badge">%s</span>',
-                esc_html($settings['lc_button_badge'])
-            );
-        }
+  
+        // Badge HTML
+        $badge_html = !empty($settings['lc_button_badge'])
+            ? sprintf('<span class="lc-button-badge">%s</span>', esc_html($settings['lc_button_badge']))
+            : '';
+ 
+        // Button inner content
 
-        // Text
-        $text = esc_html($settings['lc_button_text']);
-        $position = $settings['lc_button_icon_position'] ?? 'left';
+        $content_parts = [];
+        if ($icon_html && $position === 'left') {
+            $content_parts[] = $icon_html;
+        }
+        if ($button_text) {
+            $content_parts[] = $button_text;
+        }
+        if ($badge_html) {
+            $content_parts[] = $badge_html;
+        }
+        if ($icon_html && $position === 'right') {
+            $content_parts[] = $icon_html;
+        }
+        $button_inner = implode('', $content_parts);
+
+        // Output HTML
         ?>
         <div class="lc-kit-wid-con">
             <div class="lc-kit-button-wrapper">
                 <?php if ($has_url): ?>
                     <a <?php echo $this->get_render_attribute_string('button'); ?>>
-                        <?php if ($icon_html && $position === 'left') : ?>
-                            <?php echo $icon_html; ?>
-                        <?php endif; ?>
-
-                        <?php echo $text; ?>
-                        <?php echo $badge_html; ?>
-
-                        <?php if ($icon_html && $position === 'right') : ?>
-                            <?php echo $icon_html; ?>
-                        <?php endif; ?>
+                        <?php echo $button_inner; ?>
                     </a>
                 <?php else: ?>
                     <button type="button" <?php echo $this->get_render_attribute_string('button'); ?>>
-                        <?php if ($icon_html && $position === 'left') : ?>
-                            <?php echo $icon_html; ?>
-                        <?php endif; ?>
-
-                        <?php echo $text; ?>
-                        <?php echo $badge_html; ?>
-
-                        <?php if ($icon_html && $position === 'right') : ?>
-                            <?php echo $icon_html; ?>
-                        <?php endif; ?>
+                        <?php echo $button_inner; ?>
                     </button>
                 <?php endif; ?>
             </div>
         </div>
         <?php
-    }    
+    }
+
+
 }

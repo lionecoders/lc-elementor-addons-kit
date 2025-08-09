@@ -1,6 +1,6 @@
 /* Button Wrapper */
 .lc-kit-button-wrapper {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: auto;
@@ -14,7 +14,6 @@
     justify-content: center;
     gap: 8px; /* space between icon and text */
     padding: 10px 20px;
-    font-size: 15px;
     font-weight: 500;
     line-height: 1.4;
     text-decoration: none;
@@ -36,8 +35,16 @@
 .lc-kit-button-icon {
     display: inline-flex;
     align-items: center;
-    font-size: 1.2em;
     line-height: 0;
+    font-size: inherit; /* lets Elementor control it */
+}
+
+/* Icon SVG respects font-size */
+.lc-kit-button-icon svg {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /* Badge */
@@ -53,7 +60,6 @@
     vertical-align: middle;
 }
 
-/* Responsive: Make text & icon stay aligned */
 @media (max-width: 480px) {
     .lc-kit-button.elementor-button {
         padding: 8px 16px;
