@@ -385,7 +385,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'lc_accordion_description_style',
             [
-                'label' => esc_html__('Description', 'lc-kit'),
+                'label' => esc_html__('Description', 'lc-elementor-addons-kit'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -394,7 +394,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
         $this->add_control(
             'lc_accordion_description_color',
             [
-                'label' => esc_html__('Text Color', 'lc-kit'),
+                'label' => esc_html__('Text Color', 'lc-elementor-addons-kit'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content' => 'color: {{VALUE}};',
@@ -416,7 +416,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Background::get_type(),
             [
                 'name' => 'lc_accordion_description_background',
-                'label' => esc_html__('Background', 'lc-kit'),
+                'label' => esc_html__('Background', 'lc-elementor-addons-kit'),
                 'types' => ['classic', 'gradient'],
                 'selector' => '{{WRAPPER}} .lc-accordion-item.active .lc-accordion-content',
             ]
@@ -435,7 +435,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
         $this->add_control(
             'lc_accordion_description_border_radius',
             [
-                'label' => esc_html__('Border Radius', 'lc-kit'),
+                'label' => esc_html__('Border Radius', 'lc-elementor-addons-kit'),
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
@@ -457,7 +457,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'lc_accordion_description_padding',
             [
-                'label' => esc_html__('Padding', 'lc-kit'),
+                'label' => esc_html__('Padding', 'lc-elementor-addons-kit'),
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
@@ -470,7 +470,7 @@ class LC_Kit_Accordion extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'lc_accordion_description_max_width',
             [
-                'label' => esc_html__('Max Width', 'lc-kit'),
+                'label' => esc_html__('Max Width', 'lc-elementor-addons-kit'),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => ['%'],
                 'range' => [
